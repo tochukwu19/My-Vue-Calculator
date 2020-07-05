@@ -6,7 +6,7 @@
             <button 
               v-for="(op,index) in ops" 
               v-bind:key="index" 
-              class="opkeys"
+              :class="['opkeys',op==='AC'?'unDisabled':'',disabledClass?'Disabled': '']"
               @click="printDisplay(op)"
             >{{op}}</button>
       </div>
@@ -20,15 +20,18 @@ export default {
       return{
         ops: ["7","8","9","AC","4","5","6","+","1","2","3","-","0",".","/","="],
         display: "",
-        disabled: false
+        disabled: false,
+        disabledClass: false
       }
     },
     methods: {
       printDisplay(op){
         if(op==="="){
             this.display = eval(this.display);
+            this.disabledClass = true
         }else if(op==="AC"){
             this.display = "";
+            this.disabledClass = false
         }
         else{
           this.display = this.display + op;
@@ -62,5 +65,15 @@ export default {
     font-size: 25px;
     background-color: lavenderblush;
     color: cornflowerblue;
+  }
+  .Disabled{
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.85;
+  }
+  .unDisabled{
+    pointer-events: all !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
   }
 </style>
